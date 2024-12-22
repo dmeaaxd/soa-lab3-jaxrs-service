@@ -10,6 +10,9 @@
     </parent>
 
     <artifactId>ejbModule</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <name>ejb</name>
+    <packaging>jar</packaging>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
