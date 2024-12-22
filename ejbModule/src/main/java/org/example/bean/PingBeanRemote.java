@@ -1,9 +1,9 @@
 package org.example.bean;
 
 import jakarta.ejb.Remote;
-import jakarta.ws.rs.core.Response;
+import org.example.response.SerializableResponse;
 
 @Remote
 public interface PingBeanRemote {
-    Response ping();
+    SerializableResponse ping();
 }

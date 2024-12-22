@@ -20,12 +20,12 @@ public class PingController {
     @GET
     @Path("/web")
     public Response webPing() {
-        return Response.ok("Ok").build();
+        return Response.ok("pong").build();
     }
 
     @GET
     @Path("/ejb")
     public Response ejbPing() {
-        return pingBeanRemote.ping();
+        return pingBeanRemote.ping().getResponse();
     }
 }
