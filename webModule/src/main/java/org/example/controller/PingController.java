@@ -7,7 +7,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.Response;
-import org.example.bean.PingBeanRemote;
+import org.example.bean.ping.PingBeanRemote;
 
 @Path("ping")
 @Produces(MediaType.APPLICATION_JSON)
@@ -15,7 +15,7 @@ import org.example.bean.PingBeanRemote;
 public class PingController {
 
     @EJB
-    private PingBeanRemote pingBeanRemote;
+    private PingBeanRemote pingBean;
 
     @GET
     @Path("/web")
@@ -26,6 +26,6 @@ public class PingController {
     @GET
     @Path("/ejb")
     public Response ejbPing() {
-        return pingBeanRemote.ping().getResponse();
+        return pingBean.ping().getResponse();
     }
 }

@@ -1,4 +1,4 @@
-package org.example.bean;
+package org.example.bean.ping;
 
 import jakarta.ejb.Remote;
 import org.example.response.SerializableResponse;

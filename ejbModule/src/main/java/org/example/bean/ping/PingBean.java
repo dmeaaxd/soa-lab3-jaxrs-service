@@ -1,6 +1,7 @@
-package org.example.bean;
+package org.example.bean.ping;
 
 import jakarta.ejb.Stateless;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.core.Response;
 import org.example.response.SerializableResponse;
 import org.example.service.PingService;
@@ -8,11 +9,8 @@ import org.example.service.PingService;
 @Stateless
 public class PingBean implements PingBeanRemote {
 
-    private final PingService pingService;
-
-    public PingBean(){
-        this.pingService = new PingService();
-    }
+    @Inject
+    private PingService pingService;
 
     @Override
     public SerializableResponse ping() {
