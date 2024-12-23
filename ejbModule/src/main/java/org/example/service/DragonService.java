@@ -17,6 +17,7 @@ import org.example.entity.Dragon;
 import org.example.entity.Person;
 import org.example.entity.enums.DragonCharacter;
 import org.example.exception.DatabaseException;
+import org.example.exception.SpringServiceException;
 import org.example.repository.DragonRepository;
 import org.example.repository.PersonRepository;
 import org.example.service.parser.FilterParser;
@@ -32,7 +33,7 @@ public class DragonService {
     @Inject
     private DragonRepository dragonRepository;
     @Inject
-    private PersonRepository personRepository;
+    private PersonService personService;
 
     public List<DragonResponseDto> getDragons(
             String sort,
@@ -85,7 +86,7 @@ public class DragonService {
 
         try {
             if (dragon.getKiller() != null && dragon.getKiller().getId() != null) {
-                Person killer = personRepository.findById(dragon.getKiller().getId());
+                Person killer = personService.findById(dragon.getKiller().getId());
                 if (killer == null) {
                     throw new NotFoundException("Killer not found");
                 }
@@ -93,8 +94,8 @@ public class DragonService {
             }
 
             dragonRepository.save(dragon);
-        } catch (DatabaseException databaseException){
-            throw new InternalServerErrorException(databaseException.getMessage());
+        } catch (DatabaseException | SpringServiceException internalServerErrorException){
+            throw new InternalServerErrorException(internalServerErrorException.getMessage());
         }
     }
 
@@ -133,7 +134,7 @@ public class DragonService {
             }
 
             if (newDragon.getKiller() != null && newDragon.getKiller().getId() != null) {
-                Person killer = personRepository.findById(newDragon.getKiller().getId());
+                Person killer = personService.findById(newDragon.getKiller().getId());
                 if (killer == null) {
                     throw new NotFoundException("Killer not found");
                 }
@@ -142,8 +143,8 @@ public class DragonService {
 
             newDragon.setId(id);
             dragonRepository.update(newDragon);
-        } catch (DatabaseException databaseException){
-            throw new InternalServerErrorException(databaseException.getMessage());
+        } catch (DatabaseException | SpringServiceException internalServerErrorException){
+            throw new InternalServerErrorException(internalServerErrorException.getMessage());
         }
     }
 

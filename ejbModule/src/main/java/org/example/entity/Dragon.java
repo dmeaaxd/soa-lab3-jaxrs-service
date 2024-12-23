@@ -46,7 +46,7 @@ public class Dragon {
     @Enumerated(EnumType.STRING)
     private DragonCharacter character; //Поле может быть null
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Person killer; //Поле может быть null
 
 
