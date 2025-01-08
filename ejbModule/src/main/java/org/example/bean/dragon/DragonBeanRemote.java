@@ -9,7 +9,7 @@ import org.example.response.SerializableResponse;
 
 @Remote
 public interface DragonBeanRemote {
-    SerializableResponse getDragons(String sort, String filter, Integer page, Integer size) throws BadRequestException, InternalServerErrorException;
+    SerializableResponse getDragons(String sort, String filter, Integer page, Integer size, Integer killerId) throws BadRequestException, InternalServerErrorException;
 
     SerializableResponse addDragon(DragonRequestDto dragonRequestDto) throws BadRequestException, InternalServerErrorException ;
 

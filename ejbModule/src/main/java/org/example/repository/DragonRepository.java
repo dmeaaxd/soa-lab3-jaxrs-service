@@ -53,12 +53,13 @@ public class DragonRepository {
     public List<Dragon> findAll(String sort,
                                 String filter,
                                 Integer page,
-                                Integer size) throws DatabaseException {
+                                Integer size,
+                                Integer killerId) throws DatabaseException {
         List<Dragon> dragons;
         Session session = sessionManager.getSession();
         try {
             session.beginTransaction();
-            Query<Dragon> query = session.createQuery(createFindAllHqlQuery(sort, filter), Dragon.class);
+            Query<Dragon> query = session.createQuery(createFindAllHqlQuery(sort, filter, killerId), Dragon.class);
 
             if (size != null && size > 0) {
                 query.setMaxResults(size);
@@ -197,16 +198,29 @@ public class DragonRepository {
 
 
     private String createFindAllHqlQuery(String sort,
-                                         String filter) {
+                                         String filter,
+                                         Integer killerId) {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("FROM Dragon ");
+        stringBuilder.append("FROM Dragon");
 
-        if (filter != null && !filter.isEmpty()) {
-            stringBuilder.append("WHERE ").append(filter).append(" ");
+        if ((filter != null && !filter.isEmpty()) || (killerId != null)) {
+            stringBuilder.append(" WHERE ");
+
+            if (filter != null && !filter.isEmpty()) {
+                stringBuilder.append(filter);
+            }
+
+            if (killerId != null) {
+                if (filter != null && !filter.isEmpty()) {
+                    stringBuilder.append(" AND");
+                }
+
+                stringBuilder.append(" killer.id = ").append(killerId);
+            }
         }
 
         if (sort != null && !sort.isEmpty()) {
-            stringBuilder.append("ORDER BY ").append(sort).append(" ");
+            stringBuilder.append(" ORDER BY ").append(sort).append(" ");
         }
 
         return stringBuilder.toString();

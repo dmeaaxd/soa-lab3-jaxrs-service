@@ -19,7 +19,6 @@ import org.example.entity.enums.DragonCharacter;
 import org.example.exception.DatabaseException;
 import org.example.exception.SpringServiceException;
 import org.example.repository.DragonRepository;
-import org.example.repository.PersonRepository;
 import org.example.service.parser.FilterParser;
 import org.example.service.parser.SortParser;
 
@@ -39,7 +38,8 @@ public class DragonService {
             String sort,
             String filter,
             Integer page,
-            Integer size) throws BadRequestException, InternalServerErrorException {
+            Integer size,
+            Integer killerId) throws BadRequestException, InternalServerErrorException {
         try {
             if (sort != null && !sort.isEmpty()) {
                 sort = SortParser.parse(sort);
@@ -63,7 +63,7 @@ public class DragonService {
                 }
             }
 
-            List<Dragon> dragons = dragonRepository.findAll(sort, filter, page, size);
+            List<Dragon> dragons = dragonRepository.findAll(sort, filter, page, size, killerId);
             List<DragonResponseDto> dragonResponseDtos = new ArrayList<>();
             for (Dragon dragon : dragons) {
                 dragonResponseDtos.add(DragonConverter.convertToDragonResponseDto(dragon));
@@ -86,7 +86,7 @@ public class DragonService {
 
         try {
             if (dragon.getKiller() != null && dragon.getKiller().getId() != null) {
-                Person killer = personService.findById(dragon.getKiller().getId());
+                Person killer = personService.getPersonById(dragon.getKiller().getId());
                 if (killer == null) {
                     throw new NotFoundException("Killer not found");
                 }
@@ -134,7 +134,7 @@ public class DragonService {
             }
 
             if (newDragon.getKiller() != null && newDragon.getKiller().getId() != null) {
-                Person killer = personService.findById(newDragon.getKiller().getId());
+                Person killer = personService.getPersonById(newDragon.getKiller().getId());
                 if (killer == null) {
                     throw new NotFoundException("Killer not found");
                 }

@@ -20,10 +20,12 @@ public class DragonController {
             @QueryParam("sort") String sort,
             @QueryParam("filter") String filter,
             @QueryParam("page") Integer page,
-            @QueryParam("size") Integer size
+            @QueryParam("size") Integer size,
+            @QueryParam("killer-id") Integer killerId
     ) {
-        return dragonBean.getDragons(sort, filter, page, size).getResponse();
+        return dragonBean.getDragons(sort, filter, page, size, killerId).getResponse();
     }
+
 
     @POST
     public Response addDragon(DragonRequestDto dragonRequestDto) {

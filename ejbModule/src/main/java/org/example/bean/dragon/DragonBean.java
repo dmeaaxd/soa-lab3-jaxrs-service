@@ -17,10 +17,10 @@ public class DragonBean implements DragonBeanRemote{
     private DragonService dragonService;
 
     @Override
-    public SerializableResponse getDragons(String sort, String filter, Integer page, Integer size) throws BadRequestException, InternalServerErrorException {
+    public SerializableResponse getDragons(String sort, String filter, Integer page, Integer size, Integer killerId) throws BadRequestException, InternalServerErrorException {
         return SerializableResponse.builder()
                 .code(Response.Status.OK.getStatusCode())
-                .entity(dragonService.getDragons(sort, filter, page, size))
+                .entity(dragonService.getDragons(sort, filter, page, size, killerId))
                 .build();
     }
 
